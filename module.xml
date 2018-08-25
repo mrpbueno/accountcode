@@ -1,23 +1,23 @@
 <module>
-    <rawname>pinpass</rawname>
+    <rawname>accountcode</rawname>
     <repo>unsupported</repo>
-    <name>PIN Pass</name>
+    <name>Account Code</name>
     <version>0.0.1</version>
     <category>Settings</category>
     <Publisher>mrpbueno</Publisher>
-    <info>https://github.com/mrpbueno</info>
+    <info>https://github.com/mrpbueno/accountcode</info>
     <license>GPLv3+</license>
     <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
     <menuitems>
-        <pinpass>PIN Pass</pinpass>
+        <pinpass>Account Code</pinpass>
     </menuitems>
     <depends>
         <version>13</version>
     </depends>
     <supported>13.0</supported>
 
-    <description>Allow creation of PIN (eg, employee id) and password that can be used by other modules (eg, trunks).</description>
+    <description>Allow creation of account code (eg, employee id) and password that can be used by other modules (eg, trunks).</description>
     <changelog>
-        *0.0.1* Initial Dev Release
+        *0.0.1* Initial Dev Release 
     </changelog>
 </module>
