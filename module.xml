@@ -9,7 +9,7 @@
     <license>GPLv3+</license>
     <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
     <menuitems>
-        <pinpass>Account Code</pinpass>
+        <accountcode>Account Code</accountcode>
     </menuitems>
     <depends>
         <version>13</version>

@@ -8,6 +8,7 @@ use DB;
 use Exception;
 use FreePBX\BMO;
 use FreePBX\FreePBX_Helpers;
+use PDO;
 
 class Accountcode extends FreePBX_Helpers implements BMO
 {
@@ -27,6 +28,8 @@ class Accountcode extends FreePBX_Helpers implements BMO
     }
 
     /**
+     * Install tables
+     * https://wiki.freepbx.org/display/FOP/Database+13
      * @throws Exception
      */
     public function install()
@@ -184,7 +187,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
                 die_freepbx($results->getMessage()."<br><br>".$sql);
             }
         }
-        return true;
+        return redirect('config.php?display=accountcode');
     }
 
     /**
@@ -205,5 +208,114 @@ class Accountcode extends FreePBX_Helpers implements BMO
     public function updateItem($id, $name, $email, $code, $rules, $active, $reset)
     {
         //
+    }
+
+    /**
+     * getOne Gets an individual item by ID
+     * @param  int $id Item ID
+     * @return array Returns an associative array.
+     */
+    public function getOne($id)
+    {
+        $sql = "SELECT id,name,email,code,rules,active FROM accountcode WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+        return [
+            'id' => $row->id,
+            'name' => $row->name,
+            'code' => $row->code,
+            'active' => $row->active
+        ];
+    }
+
+    /**
+     * getList gets a list od pins and their respective id.
+     * @return array
+     */
+    public function getList()
+    {
+        $sql = 'SELECT id,name,code,active FROM accountcode';
+        $data = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        if (is_array($data)) {
+            return $data;
+        }
+        return null;
+    }
+
+    /**
+     * Adds buttons to the bottom of pages per set conditions
+     *
+     * @param array $request $_REQUEST
+     * @return array
+     */
+    public function getActionBar($request)
+    {
+        if ('accountcode' == $request['display']) {
+            if (!isset($_GET['view'])) {
+                return [];
+            }
+            $buttons = [
+                'delete' => ['name' => 'delete', 'id' => 'delete', 'value' => _('Delete'),],
+                'reset' => ['name' => 'reset', 'id' => 'reset', 'value' => _("Reset"),],
+                'submit' => ['name' => 'submit', 'id' => 'submit', 'value' => _("Submit"),],
+            ];
+            if (!isset($_GET['id']) || empty($_GET['id'])) {
+                unset($buttons['delete']);
+            }
+            return $buttons;
+        }
+    }
+
+    /**
+     * Returns bool permissions for AJAX commands
+     * https://wiki.freepbx.org/x/XoIzAQ
+     * @param string $command The ajax command
+     * @param array $setting ajax settings for this command typically untouched
+     * @return bool
+     */
+    public function ajaxRequest($command, &$setting)
+    {
+        //The ajax request
+        if ("getJSON" == $command ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handle Ajax request
+     * @url ajax.php?module=pinpass&command=getJSON&jdata=grid
+     *
+     * @return array
+     */
+    public function ajaxHandler()
+    {
+        if('getJSON' == $_REQUEST['command'] && 'grid' == $_REQUEST['jdata']){
+            return $this->getList();
+        }
+        return json_encode(['status' => false, 'message' => _("Invalid Request")]);
+    }
+
+    /**
+     * This returns html to the main page
+     *
+     * @return string html
+     */
+    public function showPage()
+    {
+        $subhead = _('Item List');
+        $content = load_view(__DIR__ . '/views/grid.php');
+
+        if('form' == $_REQUEST['view']){
+            $subhead = _('Add Item');
+            $content = load_view(__DIR__ . '/views/form.php', ['active' => '1']);
+            if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])){
+                $subhead = _('Edit Item');
+                $content = load_view(__DIR__.'/views/form.php', $this->getOne($_REQUEST['id']));
+            }
+        }
+        echo load_view(__DIR__.'/views/default.php', ['subhead' => $subhead, 'content' => $content]);
     }
 }
