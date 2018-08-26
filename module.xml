@@ -18,6 +18,6 @@
 
     <description>Allow creation of account code (eg, employee id) and password that can be used by other modules (eg, trunks).</description>
     <changelog>
-        *0.0.1* Initial Dev Release 
+        *0.0.1* Initial Dev Release
     </changelog>
 </module>

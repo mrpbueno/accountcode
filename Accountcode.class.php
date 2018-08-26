@@ -4,6 +4,7 @@
 namespace FreePBX\modules;
 
 
+use DB;
 use Exception;
 use FreePBX\BMO;
 use FreePBX\FreePBX_Helpers;
@@ -30,42 +31,81 @@ class Accountcode extends FreePBX_Helpers implements BMO
      */
     public function install()
     {
-        global $db;
-        global $amp_conf;
+        $table = $this->db->migrate("accountcode");
+        $cols = [
+            'id' => [
+                'type' => 'integer',
+                'primarykey' => true,
+                'autoincrement' => true,
+            ],
+            'name' => [
+                'type' => 'string',
+                'length' => 50,
+            ],
+            'email' => [
+                'type' => 'string',
+                'length' => 50,
+                ],
+            'code' => [
+                'type' => 'string',
+                'length' => 20,
+                ],
+            'pass' => [
+                'type' => 'string',
+                'length' => 100,
+                ],
+            'rules' => [
+                'type' => 'string',
+                'length' => 200,
+                ],
+            'active' => [
+                'type' => 'boolean',
+                'length' => 1,
+                ],
+        ];
+        $indexes = [
+            'code' => [
+                'type' => 'unique',
+                'cols' => ['code'],
+            ],
+        ];
+        $table->modify($cols, $indexes);
+        unset($table);
 
-        $autoincrement = (($amp_conf["AMPDBENGINE"] == "sqlite") || ($amp_conf["AMPDBENGINE"] == "sqlite3")) ? "AUTOINCREMENT":"AUTO_INCREMENT";
+        $table = $this->db->migrate("accountcode_usage");
+        $cols = [
+            'rule_id' => [
+                'type' => 'integer',
+                'length' => 11,
+            ],
+            'dispname' => [
+                'type' => 'string',
+                'length' => 30,
+                'primarykey' => true,
+            ],
+            'foreign_id' => [
+                'type' => 'integer',
+                'length' => 11,
+                'primarykey' => true,
+            ],
+        ];
+        $table->modify($cols);
+        unset($table);
 
-        $sql[] = "CREATE TABLE IF NOT EXISTS accountcode ( 
-	              id INTEGER NOT NULL PRIMARY KEY $autoincrement, 
-	              name VARCHAR( 50 ) COLLATE utf8mb4_unicode_ci,
-	              email VARCHAR( 50 ) COLLATE utf8mb4_unicode_ci,
-	              code VARCHAR( 20 ) COLLATE utf8mb4_unicode_ci UNIQUE KEY,
-	              pass VARCHAR( 100 ) COLLATE utf8mb4_unicode_ci,
-	              rules VARCHAR( 200 ) COLLATE utf8mb4_unicode_ci,
-	              active TINYINT ( 1 )
-                  ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-
-        $sql[] = "CREATE TABLE IF NOT EXISTS accountcode_usage ( 	              
-	              rule_id INTEGER( 11 ) COLLATE utf8mb4_unicode_ci,
-	              dispname VARCHAR( 30 ) COLLATE utf8mb4_unicode_ci,
-	              foreign_id VARCHAR( 30 ) COLLATE utf8mb4_unicode_ci,
-                  PRIMARY KEY (`dispname`, `foreign_id`)
-                  ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-
-        $sql[] = "CREATE TABLE IF NOT EXISTS accountcode_rules ( 	              
-	              id INTEGER NOT NULL PRIMARY KEY $autoincrement,
-	              rule VARCHAR( 30 ) COLLATE utf8mb4_unicode_ci,	                                
-                  ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-
-        echo "creating tables..";
-        foreach ($sql as $q) {
-            $check = $db->query($q);
-            if(DB::IsError($check)) {
-                die_freepbx("Can not create pinset tables\n".$check->getDebugInfo());
-            } else {
-                echo "done<br>\n";
-            }
-        }
+        $table = $this->db->migrate("accountcode_rules");
+        $cols = [
+            'id' => [
+                'type' => 'integer',
+                'primarykey' => true,
+                'autoincrement' => true,
+            ],
+            'rule' => [
+                'type' => 'string',
+                'length' => 50,
+            ],
+        ];
+        $table->modify($cols);
+        unset($table);
     }
 
     public function uninstall()
@@ -95,19 +135,19 @@ class Accountcode extends FreePBX_Helpers implements BMO
      * Processes form submission and pre-page actions.
      *
      * @param string $page Display name
-     * @return void
+     * @return bool
      * @throws Exception
      */
     public function doConfigPageInit($page)
     {
-        $action = $this->getReq('action','');
-        $id = $this->getReq('id','');
-        $name = $this->getReq('name');
-        $email = $this->getReq('email');
-        $code = $this->getReq('code','');
-        $reset = $this->getReq('reset', '');
-        $rules = $this->getReq('rules', '');
-        $active = $this->getReq('active', '');
+        $action = q($this->getReq('action',''));
+        $id = q($this->getReq('id',''));
+        $name = q($this->getReq('name'));
+        $email = q($this->getReq('email'));
+        $code = q($this->getReq('code',''));
+        $reset = q($this->getReq('reset', ''));
+        $rules = q($this->getReq('rules', ''));
+        $active = q($this->getReq('active', ''));
 
         switch ($action) {
             case 'add':
@@ -117,22 +157,52 @@ class Accountcode extends FreePBX_Helpers implements BMO
                 return $this->deleteItem($id);
                 break;
             case 'edit':
-                $this->updateItem($id, $name, $email, $code, $rules, $active);
+                $this->updateItem($id, $name, $email, $code, $rules, $active, $reset);
                 break;
         }
     }
 
+    /**
+     * @param $name
+     * @param $email
+     * @param $code
+     * @param $rules
+     * @param $active
+     * @return bool
+     * @throws Exception
+     */
     public function addItem($name, $email, $code, $rules, $active)
     {
-        //
+        $pass = password_hash('4567',PASSWORD_DEFAULT);
+        $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES ($name, $email, $code, $pass, $rules, $active)";
+        $results = $this->db->query($sql);
+        if (DB::IsError($results)) {
+            if ($results->getCode() == DB_ERROR_ALREADY_EXISTS) {
+                echo "<script>javascript:alert('"._("Error Duplicate Code Entry")."')</script>";
+                return false;
+            } else {
+                die_freepbx($results->getMessage()."<br><br>".$sql);
+            }
+        }
+        return true;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws Exception
+     */
     public function deleteItem($id)
     {
-        //
+        $sql = "DELETE FROM accountcode WHERE id = $id";
+        $results = $this->db->query($sql);
+        if (DB::IsError($results)) {
+            die_freepbx($results->getMessage()."<br><br>".$sql);
+        }
+        return true;
     }
 
-    public function updateItem($id, $name, $email, $code, $rules, $active)
+    public function updateItem($id, $name, $email, $code, $rules, $active, $reset)
     {
         //
     }
