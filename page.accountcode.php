@@ -1,3 +1,3 @@
 <?php
 
-echo FreePBX::create()->Accountcode->showPage();
+echo FreePBX::create()->Accountcode->showPage('code');

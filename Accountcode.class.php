@@ -1,10 +1,7 @@
 <?php
 
-
 namespace FreePBX\modules;
 
-
-use DB;
 use Exception;
 use FreePBX\BMO;
 use FreePBX\FreePBX_Helpers;
@@ -143,100 +140,135 @@ class Accountcode extends FreePBX_Helpers implements BMO
      */
     public function doConfigPageInit($page)
     {
-        $action = q($this->getReq('action',''));
-        $id = q($this->getReq('id',''));
-        $name = q($this->getReq('name'));
-        $email = q($this->getReq('email'));
-        $code = q($this->getReq('code',''));
-        $reset = q($this->getReq('reset', ''));
-        $rules = q($this->getReq('rules', ''));
-        $active = q($this->getReq('active', ''));
+        $action = $this->getReq('action','');
+        $id = $this->getReq('id','');
 
-        switch ($action) {
-            case 'add':
-                return $this->addItem($name, $email, $code, $rules, $active);
+        switch ($page) {
+            case 'accountcode':
+                switch ($action) {
+                    case 'add':
+                        return $this->addCode($_REQUEST);
+                        break;
+                    case 'delete':
+                        return $this->deleteCode($id);
+                        break;
+                    case 'edit':
+                        $this->updateCode($_REQUEST);
+                        break;
+                }
                 break;
-            case 'delete':
-                return $this->deleteItem($id);
-                break;
-            case 'edit':
-                $this->updateItem($id, $name, $email, $code, $rules, $active, $reset);
+            case 'accountcode_rules':
+                switch ($action) {
+                    case 'add':
+                        return $this->addRule($_REQUEST);
+                        break;
+                    case 'delete':
+                        return $this->deleteRule($id);
+                        break;
+                    case 'edit':
+                        $this->updateRule($_REQUEST);
+                        break;
+                }
                 break;
         }
     }
 
-    /**
-     * @param $name
-     * @param $email
-     * @param $code
-     * @param $rules
-     * @param $active
-     * @return bool
-     * @throws Exception
-     */
-    public function addItem($name, $email, $code, $rules, $active)
+    public function addCode($post)
     {
         $pass = password_hash('4567',PASSWORD_DEFAULT);
-        $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES ($name, $email, $code, $pass, $rules, $active)";
-        $results = $this->db->query($sql);
-        if (DB::IsError($results)) {
-            if ($results->getCode() == DB_ERROR_ALREADY_EXISTS) {
-                echo "<script>javascript:alert('"._("Error Duplicate Code Entry")."')</script>";
-                return false;
-            } else {
-                die_freepbx($results->getMessage()."<br><br>".$sql);
-            }
-        }
+        $rules = implode(',', $post['rules']);
+        $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES (:name, :email, :code, :pass, :rules, :active)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':name', $post['name'], \PDO::PARAM_STR);
+        $stmt->bindParam(':email', $post['email'], \PDO::PARAM_STR);
+        $stmt->bindParam(':code', $post['code'], \PDO::PARAM_STR);
+        $stmt->bindParam(':pass', $pass, \PDO::PARAM_STR);
+        $stmt->bindParam(':rules', $rules, \PDO::PARAM_STR);
+        $stmt->bindParam(':active', $post['active'], \PDO::PARAM_INT);
+        $stmt->execute();
+
         return redirect('config.php?display=accountcode');
     }
 
-    /**
-     * @param $id
-     * @return bool
-     * @throws Exception
-     */
-    public function deleteItem($id)
-    {
-        $sql = "DELETE FROM accountcode WHERE id = $id";
-        $results = $this->db->query($sql);
-        if (DB::IsError($results)) {
-            die_freepbx($results->getMessage()."<br><br>".$sql);
-        }
-        return true;
-    }
-
-    public function updateItem($id, $name, $email, $code, $rules, $active, $reset)
+    public function deleteCode($id)
     {
         //
     }
 
-    /**
-     * getOne Gets an individual item by ID
-     * @param  int $id Item ID
-     * @return array Returns an associative array.
-     */
-    public function getOne($id)
+    public function updateCode($post)
+    {
+        $rules = implode(',', $post['rules']);
+        if (isset($post['reset'])) {
+            $pass = password_hash('4567',PASSWORD_DEFAULT);
+            $sql = 'UPDATE accountcode SET name = :name, email = :email, code = :code, pass = :pass, rules = :rules, active = :active WHERE id = :id';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':pass', $pass, \PDO::PARAM_STR);
+        } else {
+            $sql = 'UPDATE pinpass SET name = :name, email = :email, code = :code, rules = :rules, active = :active WHERE id = :id';
+            $stmt = $this->db->prepare($sql);
+        }
+        $stmt->bindParam(':id', $post['id'], \PDO::PARAM_INT);
+        $stmt->bindParam(':name', $post['name'], \PDO::PARAM_STR);
+        $stmt->bindParam(':email', $post['email'], \PDO::PARAM_STR);
+        $stmt->bindParam(':code', $post['code'], \PDO::PARAM_STR);
+        $stmt->bindParam(':rules', $rules, \PDO::PARAM_STR);
+        $stmt->bindParam(':active', $post['active'], \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return redirect('config.php?display=accountcode');
+    }
+
+    public function getOneCode($id)
     {
         $sql = "SELECT id,name,email,code,rules,active FROM accountcode WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->Database->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetchObject();
         return [
             'id' => $row->id,
             'name' => $row->name,
+            'email' => $row->email,
             'code' => $row->code,
-            'active' => $row->active
+            'rules' => $row->rules,
+            'active' => $row->active,
+            'rule' => $this->getListRule(),
         ];
     }
 
-    /**
-     * getList gets a list od pins and their respective id.
-     * @return array
-     */
-    public function getList()
+    public function getListCode()
     {
-        $sql = 'SELECT id,name,code,active FROM accountcode';
+        $sql = 'SELECT id,name,email,code,active FROM accountcode';
+        $data = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        if (is_array($data)) {
+            return $data;
+        }
+        return null;
+    }
+
+    public function addRule()
+    {
+        //
+    }
+
+    public function deleteRule($id)
+    {
+        //
+    }
+
+    public function updateRule()
+    {
+        //
+    }
+
+    public function getOneRule($id)
+    {
+        //
+    }
+
+    public function getListRule()
+    {
+        $sql = 'SELECT id,rule FROM accountcode_rules';
         $data = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         if (is_array($data)) {
             return $data;
@@ -252,7 +284,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
      */
     public function getActionBar($request)
     {
-        if ('accountcode' == $request['display']) {
+        if ('accountcode' == $request['display'] || 'accountcode_rules' == $request['display']) {
             if (!isset($_GET['view'])) {
                 return [];
             }
@@ -286,14 +318,23 @@ class Accountcode extends FreePBX_Helpers implements BMO
 
     /**
      * Handle Ajax request
-     * @url ajax.php?module=pinpass&command=getJSON&jdata=grid
+     * @url ajax.php?module=accountcode&command=getJSON&jdata=grid&page=code
+     * @url ajax.php?module=accountcode&command=getJSON&jdata=grid&page=rules
      *
      * @return array
      */
     public function ajaxHandler()
     {
         if('getJSON' == $_REQUEST['command'] && 'grid' == $_REQUEST['jdata']){
-            return $this->getList();
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : '';
+            switch ($page) {
+                case 'code':
+                    return $this->getListCode();
+                    break;
+                case 'rules':
+                    return $this->getListRule();
+                    break;
+            }
         }
         return json_encode(['status' => false, 'message' => _("Invalid Request")]);
     }
@@ -301,21 +342,42 @@ class Accountcode extends FreePBX_Helpers implements BMO
     /**
      * This returns html to the main page
      *
+     * @param $page
      * @return string html
      */
-    public function showPage()
+    public function showPage($page)
     {
-        $subhead = _('Item List');
-        $content = load_view(__DIR__ . '/views/grid.php');
-
-        if('form' == $_REQUEST['view']){
-            $subhead = _('Add Item');
-            $content = load_view(__DIR__ . '/views/form.php', ['active' => '1']);
-            if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])){
-                $subhead = _('Edit Item');
-                $content = load_view(__DIR__.'/views/form.php', $this->getOne($_REQUEST['id']));
-            }
+        switch ($page) {
+            case 'rules':
+                $content = load_view(__DIR__ . '/views/rules/grid.php');
+                if('form' == $_REQUEST['view']){
+                    $content = load_view(__DIR__ . '/views/rules/form.php');
+                    if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])){
+                        $content = load_view(__DIR__.'/views/rules/form.php', $this->getOneRule($_REQUEST['id']));
+                    }
+                }
+                return load_view(__DIR__.'/views/rules/default.php', ['content' => $content]);
+                break;
+            case 'code':
+                $content = load_view(__DIR__ . '/views/code/grid.php');
+                if('form' == $_REQUEST['view']){
+                    $rule = $this->getListRule();
+                    $content = load_view(__DIR__ . '/views/code/form.php', ['rule' => $rule, 'active' => '1']);
+                    if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])){
+                        $content = load_view(__DIR__.'/views/code/form.php', $this->getOneCode($_REQUEST['id']));
+                    }
+                }
+                return load_view(__DIR__.'/views/code/default.php', ['content' => $content]);
+                break;
         }
-        echo load_view(__DIR__.'/views/default.php', ['subhead' => $subhead, 'content' => $content]);
+    }
+
+    /**
+     * @param $request
+     * @return string
+     */
+    public function getRightNav($request)
+    {
+        return load_view(__DIR__."/views/code/rnav.php",array());
     }
 }

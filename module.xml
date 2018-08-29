@@ -2,7 +2,7 @@
     <rawname>accountcode</rawname>
     <repo>unsupported</repo>
     <name>Account Code</name>
-    <version>0.0.1</version>
+    <version>14.0.1</version>
     <category>Settings</category>
     <Publisher>mrpbueno</Publisher>
     <info>https://github.com/mrpbueno/accountcode</info>
@@ -10,14 +10,15 @@
     <licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
     <menuitems>
         <accountcode>Account Code</accountcode>
+        <accountcode_rules hidden="true">Account Code Rules</accountcode_rules>
     </menuitems>
     <depends>
-        <version>13</version>
+        <version>14.0.1</version>
     </depends>
-    <supported>13.0</supported>
+    <supported>14.0.0</supported>
 
     <description>Allow creation of account code (eg, employee id) and password that can be used by other modules (eg, trunks).</description>
     <changelog>
-        *0.0.1* Initial Dev Release
+        *14.0.1* Initial Dev Release
     </changelog>
 </module>

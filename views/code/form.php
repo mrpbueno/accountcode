@@ -22,7 +22,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="name-help" class="help-block fpbx-help-block"><?php echo _("Enter the contents of your note")?></span>
+                <span id="name-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="email-help" class="help-block fpbx-help-block"><?php echo _("Enter the contents of your note")?></span>
+                <span id="email-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>
@@ -70,11 +70,47 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="code-help" class="help-block fpbx-help-block"><?php echo _("Enter a subject for your note")?></span>
+                <span id="code-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>
     <!--END CODE-->
+    <!--Rules-->
+    <div class="element-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label" for="subject"><?php echo _("Rules") ?></label>
+                            <i class="fa fa-question-circle fpbx-help-icon" data-for="rules"></i>
+                        </div>
+                        <div class="checkbox col-sm-6">
+                            <?php foreach ($rule as $r): ;?>
+                                <label class="col-sm-12">
+                                    <input type="checkbox" name="rules[]" value="<?php echo $r['id']; ?>"
+                                        <?php
+                                            $rs = explode(',',$rules);
+                                            if (in_array($r['id'],$rs)) {
+                                                echo 'checked';
+                                            }
+                                        ?>
+                                    >
+                                    <?php echo $r['rule']; ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="rules-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+            </div>
+        </div>
+    </div>
+    <!--END Rules-->
     <!--Active-->
     <div class="element-container">
         <div class="row">
@@ -97,7 +133,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Select Yes, if you would like to record the PIN in the call detail records when used")?></span>
+                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>
@@ -124,7 +160,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="reset-help" class="help-block fpbx-help-block"><?php echo _("Select Yes, if you would like to record the PIN in the call detail records when used")?></span>
+                <span id="reset-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>
