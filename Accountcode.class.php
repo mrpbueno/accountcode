@@ -6,6 +6,7 @@ use Exception;
 use FreePBX\BMO;
 use FreePBX\FreePBX_Helpers;
 use PDO;
+use PDOException;
 
 class Accountcode extends FreePBX_Helpers implements BMO
 {
@@ -24,88 +25,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         $this->db = $freepbx->Database;
     }
 
-    /**
-     * Install tables
-     * https://wiki.freepbx.org/display/FOP/Database+13
-     * @throws Exception
-     */
     public function install()
     {
-        $table = $this->db->migrate("accountcode");
-        $cols = [
-            'id' => [
-                'type' => 'integer',
-                'primarykey' => true,
-                'autoincrement' => true,
-            ],
-            'name' => [
-                'type' => 'string',
-                'length' => 50,
-            ],
-            'email' => [
-                'type' => 'string',
-                'length' => 50,
-                ],
-            'code' => [
-                'type' => 'string',
-                'length' => 20,
-                ],
-            'pass' => [
-                'type' => 'string',
-                'length' => 100,
-                ],
-            'rules' => [
-                'type' => 'string',
-                'length' => 200,
-                ],
-            'active' => [
-                'type' => 'boolean',
-                'length' => 1,
-                ],
-        ];
-        $indexes = [
-            'code' => [
-                'type' => 'unique',
-                'cols' => ['code'],
-            ],
-        ];
-        $table->modify($cols, $indexes);
-        unset($table);
-
-        $table = $this->db->migrate("accountcode_usage");
-        $cols = [
-            'rule_id' => [
-                'type' => 'integer',
-                'length' => 11,
-            ],
-            'dispname' => [
-                'type' => 'string',
-                'length' => 30,
-                'primarykey' => true,
-            ],
-            'foreign_id' => [
-                'type' => 'integer',
-                'length' => 11,
-                'primarykey' => true,
-            ],
-        ];
-        $table->modify($cols);
-        unset($table);
-
-        $table = $this->db->migrate("accountcode_rules");
-        $cols = [
-            'id' => [
-                'type' => 'integer',
-                'primarykey' => true,
-                'autoincrement' => true,
-            ],
-            'rule' => [
-                'type' => 'string',
-                'length' => 50,
-            ],
-        ];
-        $table->modify($cols);
-        unset($table);
+        // TODO: Implement install() method.
     }
 
     public function uninstall()
@@ -179,20 +101,42 @@ class Accountcode extends FreePBX_Helpers implements BMO
         $rules = implode(',', $post['rules']);
         $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES (:name, :email, :code, :pass, :rules, :active)";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':name', $post['name'], \PDO::PARAM_STR);
-        $stmt->bindParam(':email', $post['email'], \PDO::PARAM_STR);
-        $stmt->bindParam(':code', $post['code'], \PDO::PARAM_STR);
-        $stmt->bindParam(':pass', $pass, \PDO::PARAM_STR);
-        $stmt->bindParam(':rules', $rules, \PDO::PARAM_STR);
-        $stmt->bindParam(':active', $post['active'], \PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->bindParam(':name', $post['name'], PDO::PARAM_STR);
+        $stmt->bindParam(':email', $post['email'], PDO::PARAM_STR);
+        $stmt->bindParam(':code', $post['code'], PDO::PARAM_STR);
+        $stmt->bindParam(':pass', $pass, PDO::PARAM_STR);
+        $stmt->bindParam(':rules', $rules, PDO::PARAM_STR);
+        $stmt->bindParam(':active', $post['active'], PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                return false;
+            } else {
+                die_freepbx($stmt->getMessage()."<br><br>".$sql);
+            }
+        }
 
         return redirect('config.php?display=accountcode');
     }
 
+    /**
+     * @param $id
+     * @throws Exception
+     */
     public function deleteCode($id)
     {
-        //
+        $sql = "DELETE FROM accountcode WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die_freepbx($stmt->getMessage()."<br><br>".$sql);
+        }
+
+        return redirect('config.php?display=accountcode');
     }
 
     public function updateCode($post)
@@ -202,18 +146,27 @@ class Accountcode extends FreePBX_Helpers implements BMO
             $pass = password_hash('4567',PASSWORD_DEFAULT);
             $sql = 'UPDATE accountcode SET name = :name, email = :email, code = :code, pass = :pass, rules = :rules, active = :active WHERE id = :id';
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':pass', $pass, \PDO::PARAM_STR);
+            $stmt->bindParam(':pass', $pass, PDO::PARAM_STR);
         } else {
-            $sql = 'UPDATE pinpass SET name = :name, email = :email, code = :code, rules = :rules, active = :active WHERE id = :id';
+            $sql = 'UPDATE accountcode SET name = :name, email = :email, code = :code, rules = :rules, active = :active WHERE id = :id';
             $stmt = $this->db->prepare($sql);
         }
-        $stmt->bindParam(':id', $post['id'], \PDO::PARAM_INT);
-        $stmt->bindParam(':name', $post['name'], \PDO::PARAM_STR);
-        $stmt->bindParam(':email', $post['email'], \PDO::PARAM_STR);
-        $stmt->bindParam(':code', $post['code'], \PDO::PARAM_STR);
-        $stmt->bindParam(':rules', $rules, \PDO::PARAM_STR);
-        $stmt->bindParam(':active', $post['active'], \PDO::PARAM_STR);
-        $stmt->execute();
+        $stmt->bindParam(':id', $post['id'], PDO::PARAM_INT);
+        $stmt->bindParam(':name', $post['name'], PDO::PARAM_STR);
+        $stmt->bindParam(':email', $post['email'], PDO::PARAM_STR);
+        $stmt->bindParam(':code', $post['code'], PDO::PARAM_STR);
+        $stmt->bindParam(':rules', $rules, PDO::PARAM_STR);
+        $stmt->bindParam(':active', $post['active'], PDO::PARAM_STR);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                return false;
+            } else {
+                die_freepbx($stmt->getMessage()."<br><br>".$sql);
+            }
+        }
 
         return redirect('config.php?display=accountcode');
     }
@@ -246,24 +199,75 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return null;
     }
 
-    public function addRule()
+    /**
+     * @param $post
+     * @return bool|void
+     * @throws Exception
+     */
+    public function addRule($post)
     {
-        //
+        $sql = "INSERT INTO accountcode_rules (rule) VALUES (:rule)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':rule', $post['rule'], PDO::PARAM_STR);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                return false;
+            } else {
+                die_freepbx($stmt->getMessage()."<br><br>".$sql);
+            }
+        }
+
+        return redirect('config.php?display=accountcode_rules');
     }
 
     public function deleteRule($id)
     {
-        //
+        $sql = "DELETE FROM accountcode_rules WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die_freepbx($stmt->getMessage()."<br><br>".$sql);
+        }
+
+        return redirect('config.php?display=accountcode_rules');
     }
 
-    public function updateRule()
+    public function updateRule($post)
     {
-        //
+        $sql = 'UPDATE accountcode_rules SET rule = :rule WHERE id = :id';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $post['id'], PDO::PARAM_INT);
+        $stmt->bindParam(':rule', $post['rule'], PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                return false;
+            } else {
+                die_freepbx($stmt->getMessage()."<br><br>".$sql);
+            }
+        }
+
+        return redirect('config.php?display=accountcode_rules');
     }
 
     public function getOneRule($id)
     {
-        //
+        $sql = "SELECT id,rule FROM accountcode_rules WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+        return [
+            'id' => $row->id,
+            'rule' => $row->rule,
+        ];
     }
 
     public function getListRule()

@@ -16,6 +16,32 @@
         <version>14.0.1</version>
     </depends>
     <supported>14.0.0</supported>
+    <database>
+        <table name="accountcode">
+            <field name="id" type="integer" primarykey="true" autoincrement="true"/>
+            <field name="name" type="string" length="50"/>
+            <field name="email" type="string" length="50"/>
+            <field name="code" type="string" length="20"/>
+            <field name="pass" type="string" length="100"/>
+            <field name="rules" type="string" length="200"/>
+            <field name="active" type="boolean"/>
+            <key name="code" type="unique">
+                <column name="code"/>
+            </key>
+        </table>
+        <table name="accountcode_rules">
+            <field name="id" type="integer" primarykey="true" autoincrement="true"/>
+            <field name="rule" type="string" length="50"/>
+            <key name="rule" type="unique">
+                <column name="rule"/>
+            </key>
+        </table>
+        <table name="accountcode_usage">
+            <field name="dispname" type="string" length="30" primarykey="true"/>
+            <field name="foreign_id" type="integer" primarykey="true"/>
+            <field name="rule_id" type="integer"/>
+        </table>
+    </database>
 
     <description>Allow creation of account code (eg, employee id) and password that can be used by other modules (eg, trunks).</description>
     <changelog>
