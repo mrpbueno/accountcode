@@ -47,4 +47,7 @@
     <changelog>
         *14.0.1* Initial Dev Release
     </changelog>
+    <methods>
+        <get_config pri="481">accountcode_get_config</get_config>
+    </methods>
 </module>
