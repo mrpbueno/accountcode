@@ -22,7 +22,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="rule-help" class="help-block fpbx-help-block"><?php echo _("Enter the contents of your note")?></span>
+                <span id="rule-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
             </div>
         </div>
     </div>

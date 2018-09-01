@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-31 22:32-0300\n"
+"PO-Revision-Date: 2018-08-31 22:43-0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: pt_BR\n"
+
+#: Accountcode.class.php:114 Accountcode.class.php:164
+#: Accountcode.class.php:216 Accountcode.class.php:250
+msgid "Error duplicate entry"
+msgstr "Erro de entrada duplicada"
+
+#: Accountcode.class.php:296
+msgid "Delete"
+msgstr "Excluir"
+
+#: Accountcode.class.php:297
+msgid "Reset"
+msgstr ""
+
+#: Accountcode.class.php:298
+msgid "Submit"
+msgstr "Enviar"
+
+#: Accountcode.class.php:343
+msgid "Invalid Request"
+msgstr "Pedido inválido"
+
+#: views/rules/default.php:2 views/rules/rnav.php:4 views/code/rnav.php:4
+msgid "Account Code Rules"
+msgstr "Regras de código de conta"
+
+#: views/rules/form.php:1
+msgid "Edit Account Code Rule"
+msgstr "Editar regra de código de conta"
+
+#: views/rules/form.php:1
+msgid "New Account Code Rule"
+msgstr "Nova regra de código de conta"
+
+#: views/rules/form.php:13 views/rules/grid.php:19
+msgid "Rule"
+msgstr "Regra"
+
+#: views/rules/form.php:25 views/code/form.php:25 views/code/form.php:49
+#: views/code/form.php:73 views/code/form.php:109 views/code/form.php:136
+#: views/code/form.php:163
+msgid "Help"
+msgstr "Ajuda"
+
+#: views/rules/grid.php:2
+msgid "Add Account Code Rules"
+msgstr "Adicionar regras de código de conta"
+
+#: views/rules/grid.php:20 views/code/grid.php:23
+msgid "Actions"
+msgstr "Ações"
+
+#: views/rules/rnav.php:2 views/code/rnav.php:2
+msgid "Menu"
+msgstr "Menu"
+
+#: views/rules/rnav.php:3 views/code/default.php:2 views/code/rnav.php:3
+msgid "Account Code"
+msgstr "Código de Conta"
+
+#: views/code/form.php:1
+msgid "Edit Account Code"
+msgstr "Editar código de conta"
+
+#: views/code/form.php:1
+msgid "New Account Code"
+msgstr "Novo código de conta"
+
+#: views/code/form.php:13 views/code/grid.php:19
+msgid "Name"
+msgstr "Nome"
+
+#: views/code/form.php:37
+msgid "Email"
+msgstr "E-mail"
+
+#: views/code/form.php:61 views/code/grid.php:21
+msgid "Code"
+msgstr "Código"
+
+#: views/code/form.php:85
+msgid "Rules"
+msgstr "Regras"
+
+#: views/code/form.php:121 views/code/grid.php:22
+msgid "Active"
+msgstr "Ativo"
+
+#: views/code/form.php:126 views/code/form.php:153
+msgid "Yes"
+msgstr "Sim"
+
+#: views/code/form.php:128 views/code/form.php:155
+msgid "No"
+msgstr "Não"
+
+#: views/code/form.php:148
+msgid "Reset Password"
+msgstr "Redefinir Senha"
+
+#: views/code/grid.php:2
+msgid "Add Account Code"
+msgstr "Adicionar código de conta"
+
+#: views/code/grid.php:20
+msgid "E-mail"
+msgstr "E-mail"
+
+#: AccountcodeRules.php:31
+msgid "Error Duplicate Code Entry"
+msgstr "Erro duplicar entrada de código"
+
+#: functions.inc.php:102
+msgid "Account Code Rule"
+msgstr "Regra de código de conta"
+
+#: functions.inc.php:107
+msgid "None"
+msgstr "Nenhum"
+
+#: functions.inc.php:123
+msgid "Help."
+msgstr "Ajuda."
