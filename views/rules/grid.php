@@ -1,7 +1,8 @@
 <div id="toolbar-all">
-    <a href="?display=accountcode_rules&view=form" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Account Code Rules")?></a>
+    <a href="?display=accountcode_rules&view=form" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Rule")?></a>
+    <a href="?display=accountcode&view=form" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Code")?></a>
 </div>
-<table id="pinpass"
+<table id="accountcode"
        data-url="ajax.php?module=accountcode&page=rules&command=getJSON&jdata=grid&page=rules"
        data-cache="false"
        data-state-save="true"

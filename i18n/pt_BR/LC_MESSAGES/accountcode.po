@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-31 22:32-0300\n"
-"PO-Revision-Date: 2018-08-31 22:43-0300\n"
+"POT-Creation-Date: 2018-09-01 20:13-0300\n"
+"PO-Revision-Date: 2018-09-01 20:22-0300\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,9 +19,12 @@ msgstr ""
 "Language: pt_BR\n"
 
 #: Accountcode.class.php:114 Accountcode.class.php:164
+msgid "Error! Duplicate code."
+msgstr "Erro! Código duplicado."
+
 #: Accountcode.class.php:216 Accountcode.class.php:250
-msgid "Error duplicate entry"
-msgstr "Erro de entrada duplicada"
+msgid "Error! Duplicate rule."
+msgstr "Erro! Regra duplicada."
 
 #: Accountcode.class.php:296
 msgid "Delete"
@@ -29,7 +32,7 @@ msgstr "Excluir"
 
 #: Accountcode.class.php:297
 msgid "Reset"
-msgstr ""
+msgstr "Redefinir"
 
 #: Accountcode.class.php:298
 msgid "Submit"
@@ -41,31 +44,37 @@ msgstr "Pedido inválido"
 
 #: views/rules/default.php:2 views/rules/rnav.php:4 views/code/rnav.php:4
 msgid "Account Code Rules"
-msgstr "Regras de código de conta"
+msgstr "Regras do código de conta"
 
 #: views/rules/form.php:1
-msgid "Edit Account Code Rule"
-msgstr "Editar regra de código de conta"
+msgid "Edit Rule"
+msgstr "Editar Regra"
 
 #: views/rules/form.php:1
-msgid "New Account Code Rule"
-msgstr "Nova regra de código de conta"
+msgid "New Rule"
+msgstr "Nova Regra"
 
-#: views/rules/form.php:13 views/rules/grid.php:19
+#: views/rules/form.php:13 views/rules/grid.php:20
 msgid "Rule"
 msgstr "Regra"
 
-#: views/rules/form.php:25 views/code/form.php:25 views/code/form.php:49
-#: views/code/form.php:73 views/code/form.php:109 views/code/form.php:136
-#: views/code/form.php:163
-msgid "Help"
-msgstr "Ajuda"
+#: views/rules/form.php:25
+msgid ""
+"The rules are used in Outbound Routes. For example, local, long distance, "
+"mobile, international."
+msgstr ""
+"As regras são usadas em rotas de saída. Por exemplo, local, de longa "
+"distância, celular, internacional."
 
-#: views/rules/grid.php:2
-msgid "Add Account Code Rules"
-msgstr "Adicionar regras de código de conta"
+#: views/rules/grid.php:2 views/code/grid.php:3
+msgid "Add Rule"
+msgstr "Adicionar regra"
 
-#: views/rules/grid.php:20 views/code/grid.php:23
+#: views/rules/grid.php:3 views/code/grid.php:2
+msgid "Add Code"
+msgstr "Adicionar código"
+
+#: views/rules/grid.php:21 views/code/grid.php:24
 msgid "Actions"
 msgstr "Ações"
 
@@ -78,32 +87,52 @@ msgid "Account Code"
 msgstr "Código de Conta"
 
 #: views/code/form.php:1
-msgid "Edit Account Code"
-msgstr "Editar código de conta"
+msgid "Edit Code"
+msgstr "Editar código"
 
 #: views/code/form.php:1
-msgid "New Account Code"
-msgstr "Novo código de conta"
+msgid "New Code"
+msgstr "Novo Código"
 
-#: views/code/form.php:13 views/code/grid.php:19
+#: views/code/form.php:13 views/code/grid.php:20
 msgid "Name"
 msgstr "Nome"
 
-#: views/code/form.php:37
-msgid "Email"
+#: views/code/form.php:25
+msgid "Enter username"
+msgstr "Insira nome de usuário"
+
+#: views/code/form.php:37 views/code/grid.php:21
+msgid "E-mail"
 msgstr "E-mail"
 
-#: views/code/form.php:61 views/code/grid.php:21
+#: views/code/form.php:49
+msgid "Enter the e-mail"
+msgstr "Insira o e-mail"
+
+#: views/code/form.php:61 views/code/grid.php:22
 msgid "Code"
 msgstr "Código"
+
+#: views/code/form.php:73
+msgid ""
+"Enter the code. The code will be added to the CDR record's 'accountcode' "
+"field."
+msgstr ""
+"Digite o código. O código será adicionado ao campo ' accountcode ' do "
+"registro do CDR."
 
 #: views/code/form.php:85
 msgid "Rules"
 msgstr "Regras"
 
-#: views/code/form.php:121 views/code/grid.php:22
-msgid "Active"
-msgstr "Ativo"
+#: views/code/form.php:109
+msgid "Select the access rules."
+msgstr "Selecione as regras de acesso."
+
+#: views/code/form.php:121
+msgid "Enable"
+msgstr "Habilitar"
 
 #: views/code/form.php:126 views/code/form.php:153
 msgid "Yes"
@@ -113,30 +142,34 @@ msgstr "Sim"
 msgid "No"
 msgstr "Não"
 
+#: views/code/form.php:136
+msgid "Enable or disable account code."
+msgstr "Habilitar ou desabilitar o código de conta."
+
 #: views/code/form.php:148
 msgid "Reset Password"
 msgstr "Redefinir Senha"
 
-#: views/code/grid.php:2
-msgid "Add Account Code"
-msgstr "Adicionar código de conta"
+#: views/code/form.php:163
+msgid "The default password is 4567"
+msgstr "A senha padrão é 4567"
 
-#: views/code/grid.php:20
-msgid "E-mail"
-msgstr "E-mail"
-
-#: AccountcodeRules.php:31
-msgid "Error Duplicate Code Entry"
-msgstr "Erro duplicar entrada de código"
+#: views/code/grid.php:23
+msgid "Active"
+msgstr "Ativo"
 
 #: functions.inc.php:102
 msgid "Account Code Rule"
-msgstr "Regra de código de conta"
+msgstr "Regra do código de conta"
 
 #: functions.inc.php:107
 msgid "None"
 msgstr "Nenhum"
 
 #: functions.inc.php:123
-msgid "Help."
-msgstr "Ajuda."
+msgid ""
+"Optional: Select a rule to use. If using this option, leave the Route "
+"Password field blank."
+msgstr ""
+"Opcional: selecione uma regra para usar. Se estiver usando essa opção, "
+"deixe o campo Senha da Rota em branco."

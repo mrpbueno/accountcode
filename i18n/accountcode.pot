@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-31 22:32-0300\n"
+"POT-Creation-Date: 2018-09-01 20:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: Accountcode.class.php:114 Accountcode.class.php:164
+msgid "Error! Duplicate code."
+msgstr ""
+
 #: Accountcode.class.php:216 Accountcode.class.php:250
-msgid "Error duplicate entry"
+msgid "Error! Duplicate rule."
 msgstr ""
 
 #: Accountcode.class.php:296
@@ -43,28 +46,30 @@ msgid "Account Code Rules"
 msgstr ""
 
 #: views/rules/form.php:1
-msgid "Edit Account Code Rule"
+msgid "Edit Rule"
 msgstr ""
 
 #: views/rules/form.php:1
-msgid "New Account Code Rule"
+msgid "New Rule"
 msgstr ""
 
-#: views/rules/form.php:13 views/rules/grid.php:19
+#: views/rules/form.php:13 views/rules/grid.php:20
 msgid "Rule"
 msgstr ""
 
-#: views/rules/form.php:25 views/code/form.php:25 views/code/form.php:49
-#: views/code/form.php:73 views/code/form.php:109 views/code/form.php:136
-#: views/code/form.php:163
-msgid "Help"
+#: views/rules/form.php:25
+msgid "The rules are used in Outbound Routes. For example, local, long distance, mobile, international."
 msgstr ""
 
-#: views/rules/grid.php:2
-msgid "Add Account Code Rules"
+#: views/rules/grid.php:2 views/code/grid.php:3
+msgid "Add Rule"
 msgstr ""
 
-#: views/rules/grid.php:20 views/code/grid.php:23
+#: views/rules/grid.php:3 views/code/grid.php:2
+msgid "Add Code"
+msgstr ""
+
+#: views/rules/grid.php:21 views/code/grid.php:24
 msgid "Actions"
 msgstr ""
 
@@ -77,31 +82,47 @@ msgid "Account Code"
 msgstr ""
 
 #: views/code/form.php:1
-msgid "Edit Account Code"
+msgid "Edit Code"
 msgstr ""
 
 #: views/code/form.php:1
-msgid "New Account Code"
+msgid "New Code"
 msgstr ""
 
-#: views/code/form.php:13 views/code/grid.php:19
+#: views/code/form.php:13 views/code/grid.php:20
 msgid "Name"
 msgstr ""
 
-#: views/code/form.php:37
-msgid "Email"
+#: views/code/form.php:25
+msgid "Enter username"
 msgstr ""
 
-#: views/code/form.php:61 views/code/grid.php:21
+#: views/code/form.php:37 views/code/grid.php:21
+msgid "E-mail"
+msgstr ""
+
+#: views/code/form.php:49
+msgid "Enter the e-mail"
+msgstr ""
+
+#: views/code/form.php:61 views/code/grid.php:22
 msgid "Code"
+msgstr ""
+
+#: views/code/form.php:73
+msgid "Enter the code. The code will be added to the CDR record's 'accountcode' field."
 msgstr ""
 
 #: views/code/form.php:85
 msgid "Rules"
 msgstr ""
 
-#: views/code/form.php:121 views/code/grid.php:22
-msgid "Active"
+#: views/code/form.php:109
+msgid "Select the access rules."
+msgstr ""
+
+#: views/code/form.php:121
+msgid "Enable"
 msgstr ""
 
 #: views/code/form.php:126 views/code/form.php:153
@@ -112,20 +133,20 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+#: views/code/form.php:136
+msgid "Enable or disable account code."
+msgstr ""
+
 #: views/code/form.php:148
 msgid "Reset Password"
 msgstr ""
 
-#: views/code/grid.php:2
-msgid "Add Account Code"
+#: views/code/form.php:163
+msgid "The default password is 4567"
 msgstr ""
 
-#: views/code/grid.php:20
-msgid "E-mail"
-msgstr ""
-
-#: AccountcodeRules.php:31
-msgid "Error Duplicate Code Entry"
+#: views/code/grid.php:23
+msgid "Active"
 msgstr ""
 
 #: functions.inc.php:102
@@ -137,5 +158,5 @@ msgid "None"
 msgstr ""
 
 #: functions.inc.php:123
-msgid "Help."
+msgid "Optional: Select a rule to use. If using this option, leave the Route Password field blank."
 msgstr ""

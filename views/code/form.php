@@ -1,4 +1,4 @@
-<h3><?php echo ($itemid ? _("Edit Account Code") : _("New Account Code")) ?></h3>
+<h3><?php echo ($itemid ? _("Edit Code") : _("New Code")) ?></h3>
 <form autocomplete="off" action="" method="post" class="fpbx-submit" id="hwform" name="hwform" data-fpbx-delete="config.php?display=accountcode&action=delete&id=<?php echo $id?>">
     <input type="hidden" name="view" value="form">
     <input type="hidden" name='action' value="<?php echo $id?'edit':'add' ?>">
@@ -14,7 +14,7 @@
                             <i class="fa fa-question-circle fpbx-help-icon" data-for="name"></i>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="name" name="name" value="<?php echo $name?>">
+                            <input type="text" maxlength="50" class="form-control maxlen" id="name" name="name" value="<?php echo $name?>" required>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="name-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="name-help" class="help-block fpbx-help-block"><?php echo _("Enter username")?></span>
             </div>
         </div>
     </div>
@@ -34,11 +34,11 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3">
-                            <label class="control-label" for="body"><?php echo _("Email") ?></label>
+                            <label class="control-label" for="body"><?php echo _("E-mail") ?></label>
                             <i class="fa fa-question-circle fpbx-help-icon" data-for="email"></i>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="email" name="email" value="<?php echo $email?>">
+                            <input type="email" maxlength="50" class="form-control maxlen" id="email" name="email" value="<?php echo $email?>">
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="email-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="email-help" class="help-block fpbx-help-block"><?php echo _("Enter the e-mail")?></span>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
                             <i class="fa fa-question-circle fpbx-help-icon" data-for="code"></i>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="code" name="code" value="<?php echo $code?>">
+                            <input type="number" maxlength="20" class="form-control maxlen" id="code" name="code" value="<?php echo $code?>" required>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="code-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="code-help" class="help-block fpbx-help-block"><?php echo _("Enter the code. The code will be added to the CDR record's 'accountcode' field.")?></span>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="rules-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="rules-help" class="help-block fpbx-help-block"><?php echo _("Select the access rules.")?></span>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3">
-                            <label class="control-label" for="active"><?php echo _("Active") ?></label>
+                            <label class="control-label" for="active"><?php echo _("Enable") ?></label>
                             <i class="fa fa-question-circle fpbx-help-icon" data-for="active"></i>
                         </div>
                         <div class="col-md-9 radioset">
@@ -133,7 +133,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Enable or disable account code.")?></span>
             </div>
         </div>
     </div>
@@ -160,7 +160,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="reset-help" class="help-block fpbx-help-block"><?php echo _("Help")?></span>
+                <span id="reset-help" class="help-block fpbx-help-block"><?php echo _("The default password is 4567")?></span>
             </div>
         </div>
     </div>

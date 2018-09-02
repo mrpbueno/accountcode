@@ -35,8 +35,8 @@ class Accountcode extends FreePBX_Helpers implements BMO
         echo "dropping table accountcode..";
         sql('DROP TABLE IF EXISTS `accountcode`');
         echo "done<br>\n";
-        echo "dropping table accountcode_usage..";
-        sql('DROP TABLE IF EXISTS `accountcode_usage`');
+        echo "dropping table accountcode_rules_usage..";
+        sql('DROP TABLE IF EXISTS `accountcode_rules_usage`');
         echo "done<br>\n";
         echo "dropping table accountcode_rules..";
         sql('DROP TABLE IF EXISTS `accountcode_rules`');
@@ -95,10 +95,16 @@ class Accountcode extends FreePBX_Helpers implements BMO
         }
     }
 
+    /**
+     * @param $post
+     * @return bool|void
+     * @throws Exception
+     */
     public function addCode($post)
     {
         $pass = password_hash('4567',PASSWORD_DEFAULT);
-        $rules = implode(',', $post['rules']);
+        $rule = isset($post['rules']) ? $post['rules'] : $rule = array();
+        $rules = implode(',', $rule);
         $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES (:name, :email, :code, :pass, :rules, :active)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':name', $post['name'], PDO::PARAM_STR);
@@ -111,7 +117,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate code.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -161,7 +167,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate code.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -213,7 +219,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate rule.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -242,12 +248,12 @@ class Accountcode extends FreePBX_Helpers implements BMO
         $sql = 'UPDATE accountcode_rules SET rule = :rule WHERE id = :id';
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $post['id'], PDO::PARAM_INT);
-        $stmt->bindParam(':rule', $post['rule'], PDO::PARAM_INT);
+        $stmt->bindParam(':rule', $post['rule'], PDO::PARAM_STR);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error duplicate entry")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate rule.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -383,5 +389,39 @@ class Accountcode extends FreePBX_Helpers implements BMO
     public function getRightNav($request)
     {
         return load_view(__DIR__."/views/code/rnav.php",array());
+    }
+
+    public function myDialplanHooks()
+    {
+        return true;
+    }
+
+    /**
+     * Dialplan generation
+     *
+     * @param object $ext The dialplan object we add to
+     * @param string $engine This will always be asterisk
+     * @param int $priority 500?
+     * @return void
+     */
+    public function doDialplanHook(&$ext, $engine, $priority)
+    {
+        $fcc = new \featurecode('accountcode', 'updatepass');
+        $fcc->setDescription('Update account code password');
+        $fcc->setDefault('*11');
+        $fcc->update();
+        $hw_fc = $fcc->getCodeActive();
+        unset($fcc);
+        $id = 'app-accountcode';
+        $ext->addInclude('from-internal-additional', $id);
+        $ext->add($id, $hw_fc, '', new \ext_goto('1', 's', 'app-accountcode-updatepass'));
+        $id = 'app-accountcode-updatepass';
+        $c = 's';
+        $ext->add($id, $c, 'label', new \ext_answer());
+        $ext->add($id, $c, '', new \ext_wait(1));
+        $ext->add($id, $c, '', new \ext_execif('$["${DB(AMPUSER/${AMPUSER}/pinless)}" != "NOPASSWD"]', 'Read','ACCOUNT,enter_account&followed_pound,10,,2,4'));
+        $ext->add($id, $c, '', new \ext_execif('$["${DB(AMPUSER/${AMPUSER}/pinless)}" != "NOPASSWD"]', 'Read','PASSWORD,enter-password,10,,2,4'));
+        $ext->add($id, $c, '', new \ext_execif('$["${DB(AMPUSER/${AMPUSER}/pinless)}" != "NOPASSWD"]', 'AGI','accountcode-updatepass.php,${ACCOUNT},${PASSWORD}'));
+        $ext->add($id, $c, 'hangup', new \ext_hangup());
     }
 }

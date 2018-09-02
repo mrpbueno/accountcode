@@ -25,7 +25,7 @@ function accountcode_get_config($engine)
 
 function accountcode_list_usage($dispname=true)
 {
-    $sql = 'SELECT * FROM `accountcode_usage`';
+    $sql = 'SELECT * FROM `accountcode_rules_usage`';
     if ($dispname !== true) {
         $sql .= " WHERE `dispname` = '$dispname'";
     }
@@ -45,7 +45,7 @@ function accountcode_adjustroute($route_id,$action,$rule_id='')
     $rule_id = $db->escapeSimple($rule_id);
     switch ($action) {
         case 'delroute':
-            sql('DELETE FROM accountcode_usage WHERE foreign_id ='.q($route_id)." AND dispname = '$dispname'");
+            sql('DELETE FROM accountcode_rules_usage WHERE foreign_id ='.q($route_id)." AND dispname = '$dispname'");
             break;
         case 'addroute';
             if ($rule_id != '') {
@@ -54,14 +54,14 @@ function accountcode_adjustroute($route_id,$action,$rule_id='')
             break;
         case 'delayed_insert_route';
             if ($rule_id != '') {
-                sql("INSERT INTO accountcode_usage (dispname, foreign_id, rule_id) VALUES ('$dispname', '$route_id', $rule_id)");
+                sql("INSERT INTO accountcode_rules_usage (dispname, foreign_id, rule_id) VALUES ('$dispname', '$route_id', $rule_id)");
             }
             break;
         case 'editroute';
             if ($rule_id != '') {
-                sql("REPLACE INTO accountcode_usage (dispname, foreign_id, rule_id) VALUES ('$dispname', '$route_id', '$rule_id')");
+                sql("REPLACE INTO accountcode_rules_usage (dispname, foreign_id, rule_id) VALUES ('$dispname', '$route_id', '$rule_id')");
             } else {
-                sql('DELETE FROM accountcode_usage WHERE foreign_id ='.q($route_id)." AND dispname = '$dispname'");
+                sql('DELETE FROM accountcode_rules_usage WHERE foreign_id ='.q($route_id)." AND dispname = '$dispname'");
             }
             break;
     }
@@ -85,7 +85,7 @@ function accountcode_hook_core($viewing_itemid, $target_menuid)
                 if (isset($_SESSION['accountcodeAddRoute']) && $_SESSION['accountcodeAddRoute'] != '') {
                     $selected_rule = $_SESSION['accountcodeAddRoute'];
                 } else {
-                    $selected_rule = $db->getOne("SELECT rule_id FROM accountcode_usage WHERE dispname='routing' AND foreign_id='".$db->escapeSimple($viewing_itemid)."'");
+                    $selected_rule = $db->getOne("SELECT rule_id FROM accountcode_rules_usage WHERE dispname='routing' AND foreign_id='".$db->escapeSimple($viewing_itemid)."'");
                     if(DB::IsError($selected_rule)) {
                         die_freepbx($selected_rule->getMessage());
                     }
@@ -120,7 +120,7 @@ function accountcode_hook_core($viewing_itemid, $target_menuid)
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<span id="accountcode-help" class="help-block fpbx-help-block">'._('Help.').'</span>
+						<span id="accountcode-help" class="help-block fpbx-help-block">'._('Optional: Select a rule to use. If using this option, leave the Route Password field blank.').'</span>
 					</div>
 				</div>
 			</div>
