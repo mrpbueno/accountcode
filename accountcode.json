@@ -1,0 +1,22 @@
+{
+  "rawname": "accountcode",
+  "repo": "unsupported",
+  "name": "Account Code",
+  "version": "14.0.1",
+  "publisher": "mrpbueno",
+  "license": "GPLv3+",
+  "licenselink": "http://www.gnu.org/licenses/gpl-3.0.txt",
+  "changelog": "*14.0.1* Initial Dev Release",
+  "category": "Applications",
+  "description": "Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes.",
+  "depends": {
+    "version": "14.0.0",
+    "phpversion": "7.0"
+  },
+  "supported": {
+    "version": "14.0"
+  },
+  "location": "https://github.com/mrpbueno/accountcode",
+  "md5sum": "",
+  "packaged": ""
+}
