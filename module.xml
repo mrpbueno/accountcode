@@ -42,7 +42,7 @@
             <field name="rule_id" type="integer"/>
         </table>
     </database>
-
+    <updateurl>https://raw.githubusercontent.com/mrpbueno/accountcode/master/accountcode.json</updateurl>
     <description>Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes.</description>
     <changelog>
         *14.0.1* Initial Dev Release
