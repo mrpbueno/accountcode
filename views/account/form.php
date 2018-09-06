@@ -1,4 +1,4 @@
-<h3><?php echo ($itemid ? _("Edit Code") : _("New Code")) ?></h3>
+<h3><?php echo ($itemid ? _("Edit account") : _("New account")) ?></h3>
 <form autocomplete="off" action="" method="post" class="fpbx-submit" id="hwform" name="hwform" data-fpbx-delete="config.php?display=accountcode&action=delete&id=<?php echo $id?>">
     <input type="hidden" name="view" value="form">
     <input type="hidden" name='action' value="<?php echo $id?'edit':'add' ?>">
@@ -51,18 +51,18 @@
         </div>
     </div>
     <!--END Email-->
-    <!--CODE-->
+    <!--account-->
     <div class="element-container">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3">
-                            <label class="control-label" for="subject"><?php echo _("Code") ?></label>
-                            <i class="fa fa-question-circle fpbx-help-icon" data-for="code"></i>
+                            <label class="control-label" for="subject"><?php echo _("Account") ?></label>
+                            <i class="fa fa-question-circle fpbx-help-icon" data-for="account"></i>
                         </div>
                         <div class="col-md-9">
-                            <input type="number" maxlength="20" class="form-control maxlen" id="code" name="code" value="<?php echo $code?>" required>
+                            <input type="number" maxlength="20" class="form-control maxlen" id="account" name="account" value="<?php echo $account?>" required>
                         </div>
                     </div>
                 </div>
@@ -70,11 +70,11 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="code-help" class="help-block fpbx-help-block"><?php echo _("Enter the code. The code will be added to the CDR record's 'accountcode' field.")?></span>
+                <span id="account-help" class="help-block fpbx-help-block"><?php echo _("Enter the account. The account will be added to the CDR record's 'accountcode' field.")?></span>
             </div>
         </div>
     </div>
-    <!--END CODE-->
+    <!--END account-->
     <!--Rules-->
     <div class="element-container">
         <div class="row">
@@ -133,7 +133,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Enable or disable account code.")?></span>
+                <span id="active-help" class="help-block fpbx-help-block"><?php echo _("Enable or disable Account Code.")?></span>
             </div>
         </div>
     </div>

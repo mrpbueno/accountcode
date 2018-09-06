@@ -69,13 +69,13 @@ class Accountcode extends FreePBX_Helpers implements BMO
             case 'accountcode':
                 switch ($action) {
                     case 'add':
-                        return $this->addCode($_REQUEST);
+                        return $this->addAccount($_REQUEST);
                         break;
                     case 'delete':
-                        return $this->deleteCode($id);
+                        return $this->deleteAccount($id);
                         break;
                     case 'edit':
-                        $this->updateCode($_REQUEST);
+                        $this->updateAccount($_REQUEST);
                         break;
                 }
                 break;
@@ -100,16 +100,16 @@ class Accountcode extends FreePBX_Helpers implements BMO
      * @return bool|void
      * @throws Exception
      */
-    public function addCode($post)
+    public function addAccount($post)
     {
         $pass = password_hash('4567',PASSWORD_DEFAULT);
         $rule = isset($post['rules']) ? $post['rules'] : $rule = array();
         $rules = implode(',', $rule);
-        $sql = "INSERT INTO accountcode (name, email, code, pass, rules, active) VALUES (:name, :email, :code, :pass, :rules, :active)";
+        $sql = "INSERT INTO accountcode (name, email, account, pass, rules, active) VALUES (:name, :email, :account, :pass, :rules, :active)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':name', $post['name'], PDO::PARAM_STR);
         $stmt->bindParam(':email', $post['email'], PDO::PARAM_STR);
-        $stmt->bindParam(':code', $post['code'], PDO::PARAM_STR);
+        $stmt->bindParam(':account', $post['account'], PDO::PARAM_STR);
         $stmt->bindParam(':pass', $pass, PDO::PARAM_STR);
         $stmt->bindParam(':rules', $rules, PDO::PARAM_STR);
         $stmt->bindParam(':active', $post['active'], PDO::PARAM_INT);
@@ -117,7 +117,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error! Duplicate code.")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate account.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -131,7 +131,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
      * @param $id
      * @throws Exception
      */
-    public function deleteCode($id)
+    public function deleteAccount($id)
     {
         $sql = "DELETE FROM accountcode WHERE id = :id";
         $stmt = $this->db->prepare($sql);
@@ -145,29 +145,29 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode');
     }
 
-    public function updateCode($post)
+    public function updateAccount($post)
     {
         $rules = implode(',', $post['rules']);
         if (isset($post['reset'])) {
             $pass = password_hash('4567',PASSWORD_DEFAULT);
-            $sql = 'UPDATE accountcode SET name = :name, email = :email, code = :code, pass = :pass, rules = :rules, active = :active WHERE id = :id';
+            $sql = 'UPDATE accountcode SET name = :name, email = :email, account = :account, pass = :pass, rules = :rules, active = :active WHERE id = :id';
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':pass', $pass, PDO::PARAM_STR);
         } else {
-            $sql = 'UPDATE accountcode SET name = :name, email = :email, code = :code, rules = :rules, active = :active WHERE id = :id';
+            $sql = 'UPDATE accountcode SET name = :name, email = :email, account = :account, rules = :rules, active = :active WHERE id = :id';
             $stmt = $this->db->prepare($sql);
         }
         $stmt->bindParam(':id', $post['id'], PDO::PARAM_INT);
         $stmt->bindParam(':name', $post['name'], PDO::PARAM_STR);
         $stmt->bindParam(':email', $post['email'], PDO::PARAM_STR);
-        $stmt->bindParam(':code', $post['code'], PDO::PARAM_STR);
+        $stmt->bindParam(':account', $post['account'], PDO::PARAM_STR);
         $stmt->bindParam(':rules', $rules, PDO::PARAM_STR);
         $stmt->bindParam(':active', $post['active'], PDO::PARAM_STR);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                echo "<script>javascript:alert('"._("Error! Duplicate code.")."')</script>";
+                echo "<script>javascript:alert('"._("Error! Duplicate account.")."')</script>";
                 return false;
             } else {
                 die_freepbx($stmt->getMessage()."<br><br>".$sql);
@@ -177,9 +177,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode');
     }
 
-    public function getOneCode($id)
+    public function getOneAccount($id)
     {
-        $sql = "SELECT id,name,email,code,rules,active FROM accountcode WHERE id = :id";
+        $sql = "SELECT id,name,email,account,rules,active FROM accountcode WHERE id = :id";
         $stmt = $this->Database->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -188,16 +188,16 @@ class Accountcode extends FreePBX_Helpers implements BMO
             'id' => $row->id,
             'name' => $row->name,
             'email' => $row->email,
-            'code' => $row->code,
+            'account' => $row->account,
             'rules' => $row->rules,
             'active' => $row->active,
             'rule' => $this->getListRule(),
         ];
     }
 
-    public function getListCode()
+    public function getListAccount()
     {
-        $sql = 'SELECT id,name,email,code,active FROM accountcode';
+        $sql = 'SELECT id,name,email,account,active FROM accountcode';
         $data = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         if (is_array($data)) {
             return $data;
@@ -328,7 +328,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
 
     /**
      * Handle Ajax request
-     * @url ajax.php?module=accountcode&command=getJSON&jdata=grid&page=code
+     * @url ajax.php?module=accountcode&command=getJSON&jdata=grid&page=account
      * @url ajax.php?module=accountcode&command=getJSON&jdata=grid&page=rules
      *
      * @return array
@@ -338,8 +338,8 @@ class Accountcode extends FreePBX_Helpers implements BMO
         if('getJSON' == $_REQUEST['command'] && 'grid' == $_REQUEST['jdata']){
             $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : '';
             switch ($page) {
-                case 'code':
-                    return $this->getListCode();
+                case 'account':
+                    return $this->getListAccount();
                     break;
                 case 'rules':
                     return $this->getListRule();
@@ -368,16 +368,16 @@ class Accountcode extends FreePBX_Helpers implements BMO
                 }
                 return load_view(__DIR__.'/views/rules/default.php', ['content' => $content]);
                 break;
-            case 'code':
-                $content = load_view(__DIR__ . '/views/code/grid.php');
+            case 'account':
+                $content = load_view(__DIR__ . '/views/account/grid.php');
                 if('form' == $_REQUEST['view']){
                     $rule = $this->getListRule();
-                    $content = load_view(__DIR__ . '/views/code/form.php', ['rule' => $rule, 'active' => '1']);
+                    $content = load_view(__DIR__ . '/views/account/form.php', ['rule' => $rule, 'active' => '1']);
                     if(isset($_REQUEST['id']) && !empty($_REQUEST['id'])){
-                        $content = load_view(__DIR__.'/views/code/form.php', $this->getOneCode($_REQUEST['id']));
+                        $content = load_view(__DIR__.'/views/account/form.php', $this->getOneAccount($_REQUEST['id']));
                     }
                 }
-                return load_view(__DIR__.'/views/code/default.php', ['content' => $content]);
+                return load_view(__DIR__.'/views/account/default.php', ['content' => $content]);
                 break;
         }
     }
@@ -388,7 +388,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
      */
     public function getRightNav($request)
     {
-        return load_view(__DIR__."/views/code/rnav.php",array());
+        return load_view(__DIR__."/views/account/rnav.php",array());
     }
 
     public function myDialplanHooks()
@@ -407,7 +407,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
     public function doDialplanHook(&$ext, $engine, $priority)
     {
         $fcc = new \featurecode('accountcode', 'updatepass');
-        $fcc->setDescription('Update account code password');
+        $fcc->setDescription('Update Account Code password');
         $fcc->setDefault('*11');
         $fcc->update();
         $hw_fc = $fcc->getCodeActive();

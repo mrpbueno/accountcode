@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-01 20:13-0300\n"
+"POT-Creation-Date: 2018-09-06 18:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Accountcode.class.php:114 Accountcode.class.php:164
-msgid "Error! Duplicate code."
+#: Accountcode.class.php:120 Accountcode.class.php:170
+msgid "Error! Duplicate account."
 msgstr ""
 
-#: Accountcode.class.php:216 Accountcode.class.php:250
+#: Accountcode.class.php:222 Accountcode.class.php:256
 msgid "Error! Duplicate rule."
 msgstr ""
 
-#: Accountcode.class.php:296
+#: Accountcode.class.php:302
 msgid "Delete"
 msgstr ""
 
-#: Accountcode.class.php:297
+#: Accountcode.class.php:303
 msgid "Reset"
 msgstr ""
 
-#: Accountcode.class.php:298
+#: Accountcode.class.php:304
 msgid "Submit"
 msgstr ""
 
-#: Accountcode.class.php:343
+#: Accountcode.class.php:349
 msgid "Invalid Request"
 msgstr ""
 
-#: views/rules/default.php:2 views/rules/rnav.php:4 views/code/rnav.php:4
+#: views/rules/default.php:2 views/rules/rnav.php:4 views/account/rnav.php:4
 msgid "Account Code Rules"
 msgstr ""
 
@@ -61,91 +61,91 @@ msgstr ""
 msgid "The rules are used in Outbound Routes. For example, local, long distance, mobile, international."
 msgstr ""
 
-#: views/rules/grid.php:2 views/code/grid.php:3
+#: views/rules/grid.php:2 views/account/grid.php:3
 msgid "Add Rule"
 msgstr ""
 
-#: views/rules/grid.php:3 views/code/grid.php:2
-msgid "Add Code"
+#: views/rules/grid.php:3 views/account/grid.php:2
+msgid "Add Account"
 msgstr ""
 
-#: views/rules/grid.php:21 views/code/grid.php:24
+#: views/rules/grid.php:21 views/account/grid.php:24
 msgid "Actions"
 msgstr ""
 
-#: views/rules/rnav.php:2 views/code/rnav.php:2
+#: views/rules/rnav.php:2 views/account/rnav.php:2
 msgid "Menu"
 msgstr ""
 
-#: views/rules/rnav.php:3 views/code/default.php:2 views/code/rnav.php:3
+#: views/rules/rnav.php:3 views/account/default.php:2 views/account/rnav.php:3
 msgid "Account Code"
 msgstr ""
 
-#: views/code/form.php:1
-msgid "Edit Code"
+#: views/account/form.php:1
+msgid "Edit account"
 msgstr ""
 
-#: views/code/form.php:1
-msgid "New Code"
+#: views/account/form.php:1
+msgid "New account"
 msgstr ""
 
-#: views/code/form.php:13 views/code/grid.php:20
+#: views/account/form.php:13 views/account/grid.php:20
 msgid "Name"
 msgstr ""
 
-#: views/code/form.php:25
+#: views/account/form.php:25
 msgid "Enter username"
 msgstr ""
 
-#: views/code/form.php:37 views/code/grid.php:21
+#: views/account/form.php:37 views/account/grid.php:21
 msgid "E-mail"
 msgstr ""
 
-#: views/code/form.php:49
+#: views/account/form.php:49
 msgid "Enter the e-mail"
 msgstr ""
 
-#: views/code/form.php:61 views/code/grid.php:22
-msgid "Code"
+#: views/account/form.php:61 views/account/grid.php:22
+msgid "Account"
 msgstr ""
 
-#: views/code/form.php:73
-msgid "Enter the code. The code will be added to the CDR record's 'accountcode' field."
+#: views/account/form.php:73
+msgid "Enter the account. The account will be added to the CDR record's 'accountcode' field."
 msgstr ""
 
-#: views/code/form.php:85
+#: views/account/form.php:85
 msgid "Rules"
 msgstr ""
 
-#: views/code/form.php:109
+#: views/account/form.php:109
 msgid "Select the access rules."
 msgstr ""
 
-#: views/code/form.php:121
+#: views/account/form.php:121
 msgid "Enable"
 msgstr ""
 
-#: views/code/form.php:126 views/code/form.php:153
+#: views/account/form.php:126 views/account/form.php:153
 msgid "Yes"
 msgstr ""
 
-#: views/code/form.php:128 views/code/form.php:155
+#: views/account/form.php:128 views/account/form.php:155
 msgid "No"
 msgstr ""
 
-#: views/code/form.php:136
-msgid "Enable or disable account code."
+#: views/account/form.php:136
+msgid "Enable or disable Account Code."
 msgstr ""
 
-#: views/code/form.php:148
+#: views/account/form.php:148
 msgid "Reset Password"
 msgstr ""
 
-#: views/code/form.php:163
+#: views/account/form.php:163
 msgid "The default password is 4567"
 msgstr ""
 
-#: views/code/grid.php:23
+#: views/account/grid.php:23
 msgid "Active"
 msgstr ""
 

@@ -21,12 +21,12 @@
             <field name="id" type="integer" primarykey="true" autoincrement="true"/>
             <field name="name" type="string" length="50" notnull="true"/>
             <field name="email" type="string" length="50"/>
-            <field name="code" type="string" length="20" notnull="true"/>
+            <field name="account" type="string" length="20" notnull="true"/>
             <field name="pass" type="string" length="100" notnull="true"/>
             <field name="rules" type="string" length="200" notnull="true"/>
             <field name="active" type="boolean" notnull="true"/>
             <key name="code" type="unique">
-                <column name="code"/>
+                <column name="account"/>
             </key>
         </table>
         <table name="accountcode_rules">

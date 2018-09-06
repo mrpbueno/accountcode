@@ -9,11 +9,11 @@ $db = new AGIDB($agi);
 
 $value = $argv[1];
 $value = explode('*', $value);
-$code = $value[0];
+$account = $value[0];
 $pass = $value[1];
 $rule = $argv[3];
 
-$sql = "SELECT `pass`, `rules` FROM `accountcode` WHERE `code` = '$code' AND `active` = '1'";
+$sql = "SELECT `pass`, `rules` FROM `accountcode` WHERE `account` = '$account' AND `active` = '1'";
 $row = $db->sql($sql, 'NUM');
 
 if (password_verify($pass, $row[0][0])) {
@@ -24,7 +24,7 @@ if (password_verify($pass, $row[0][0])) {
        $agi->hangup();
    } else {
        $agi->exec('Playback', 'one-moment-please');
-       $agi->set_variable('CALLEE_ACCOUNCODE', $code);
+       $agi->set_variable('CALLEE_ACCOUNCODE', $account);
    }
 } else {
     $agi->exec('Playback', 'vm-invalidpassword');

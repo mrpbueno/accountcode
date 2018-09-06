@@ -12,10 +12,10 @@ include_once "sql.php";
 $agi = new AGI();
 $db = new AGIDB($agi);
 
-$code = $argv[1];
+$account = $argv[1];
 $pass = $argv[2];
 
-$sql = "SELECT `pass` FROM `accountcode` WHERE `code` = '$code' AND `active` = '1'";
+$sql = "SELECT `pass` FROM `accountcode` WHERE `account` = '$account' AND `active` = '1'";
 $row = $db->sql($sql, 'NUM');
 
 if (password_verify($pass, $row[0][0])) {
@@ -23,7 +23,7 @@ if (password_verify($pass, $row[0][0])) {
     $value = $agi->get_variable('PASSWD');
     $value = $value['data'];
     $pass = password_hash($value,PASSWORD_DEFAULT);
-    $sql = "UPDATE `accountcode` SET `pass` = '$pass' WHERE `code` = '$code'";
+    $sql = "UPDATE `accountcode` SET `pass` = '$pass' WHERE `account` = '$account'";
     $db->sql($sql, 'NUM');
     $agi->exec('Playback', 'auth-thankyou');
 } else {
