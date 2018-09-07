@@ -30,6 +30,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         // TODO: Implement install() method.
     }
 
+    /**
+     * @throws Exception
+     */
     public function uninstall()
     {
         echo "dropping table accountcode..";
@@ -145,6 +148,11 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode');
     }
 
+    /**
+     * @param $post
+     * @return bool|void
+     * @throws Exception
+     */
     public function updateAccount($post)
     {
         $rules = implode(',', $post['rules']);
@@ -177,6 +185,10 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode');
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
     public function getOneAccount($id)
     {
         $sql = "SELECT id,name,email,account,rules,active FROM accountcode WHERE id = :id";
@@ -195,6 +207,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         ];
     }
 
+    /**
+     * @return null|array
+     */
     public function getListAccount()
     {
         $sql = 'SELECT id,name,email,account,active FROM accountcode';
@@ -229,6 +244,10 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode_rules');
     }
 
+    /**
+     * @param int $id
+     * @throws Exception
+     */
     public function deleteRule($id)
     {
         $sql = "DELETE FROM accountcode_rules WHERE id = :id";
@@ -243,6 +262,11 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode_rules');
     }
 
+    /**
+     * @param $post
+     * @return bool|void
+     * @throws Exception
+     */
     public function updateRule($post)
     {
         $sql = 'UPDATE accountcode_rules SET rule = :rule WHERE id = :id';
@@ -263,6 +287,10 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return redirect('config.php?display=accountcode_rules');
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
     public function getOneRule($id)
     {
         $sql = "SELECT id,rule FROM accountcode_rules WHERE id = :id";
@@ -276,6 +304,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         ];
     }
 
+    /**
+     * @return null|array
+     */
     public function getListRule()
     {
         $sql = 'SELECT id,rule FROM accountcode_rules';
@@ -391,6 +422,9 @@ class Accountcode extends FreePBX_Helpers implements BMO
         return load_view(__DIR__."/views/account/rnav.php",array());
     }
 
+    /**
+     * @return bool
+     */
     public function myDialplanHooks()
     {
         return true;

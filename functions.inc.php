@@ -1,6 +1,10 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
+/**
+ * @param $engine
+ * @throws Exception
+ */
 function accountcode_get_config($engine)
 {
     global $ext;
@@ -23,6 +27,11 @@ function accountcode_get_config($engine)
     }
 }
 
+/**
+ * @param bool $dispname
+ * @return bool|null
+ * @throws Exception
+ */
 function accountcode_list_usage($dispname=true)
 {
     $sql = 'SELECT * FROM `accountcode_rules_usage`';
@@ -37,7 +46,13 @@ function accountcode_rules()
     return \FreePBX::Accountcode()->getListRule();
 }
 
-function accountcode_adjustroute($route_id,$action,$rule_id='')
+/**
+ * @param $route_id
+ * @param $action
+ * @param string $rule_id
+ * @throws Exception
+ */
+function accountcode_adjustroute($route_id, $action, $rule_id='')
 {
     global $db;
     $dispname = 'routing';
@@ -135,6 +150,10 @@ function accountcode_hook_core($viewing_itemid, $target_menuid)
     }
 }
 
+/**
+ * @param $viewing_itemid
+ * @param $request
+ */
 function accountcode_hookProcess_core($viewing_itemid, $request)
 {
     switch ($request['display']) {
