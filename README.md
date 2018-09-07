@@ -1,3 +1,3 @@
 **Account Code**
 
-**Warning** - _Module is not functional._
+Código de conta para asterisk FreePBX
