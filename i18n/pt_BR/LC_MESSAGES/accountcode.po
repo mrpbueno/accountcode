@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-06 18:07-0300\n"
-"PO-Revision-Date: 2018-09-06 18:11-0300\n"
+"PO-Revision-Date: 2018-09-09 12:40-0300\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,12 +59,9 @@ msgid "Rule"
 msgstr "Regra"
 
 #: views/rules/form.php:25
-msgid ""
-"The rules are used in Outbound Routes. For example, local, long distance, "
-"mobile, international."
+msgid "The rules are used in Outbound Routes. For example, local, long distance, mobile, international."
 msgstr ""
-"As regras são usadas em rotas de saída. Por exemplo, local, longa "
-"distância, celular, internacional."
+"As regras são usadas em rotas de saída. Por exemplo, local, longa distância, celular, internacional."
 
 #: views/rules/grid.php:2 views/account/grid.php:3
 msgid "Add Rule"
@@ -115,12 +112,8 @@ msgid "Account"
 msgstr "Conta"
 
 #: views/account/form.php:73
-msgid ""
-"Enter the account. The account will be added to the CDR record's "
-"'accountcode' field."
-msgstr ""
-"Insira a conta. A conta será adicionada ao campo ' accountcode ' do "
-"registro do CDR."
+msgid "Enter the account. The account will be added to the CDR record's 'accountcode' field."
+msgstr "Insira a conta. A conta será adicionada ao campo ' accountcode ' do registro do CDR."
 
 #: views/account/form.php:85
 msgid "Rules"
@@ -167,9 +160,13 @@ msgid "None"
 msgstr "Nenhum"
 
 #: functions.inc.php:123
-msgid ""
-"Optional: Select a rule to use. If using this option, leave the Route "
-"Password field blank."
+msgid "Optional: Select a rule to use. If using this option, leave the Route Password field blank."
 msgstr ""
-"Opcional: selecione uma regra para usar. Se estiver usando essa opção, "
-"deixe o campo Senha da Rota em branco."
+"Opcional: selecione uma regra para usar. Se estiver usando essa opção, deixe o campo Senha da Rota em "
+"branco."
+
+#: module.xml:46
+msgid "Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes."
+msgstr ""
+"Permite a criação de código de conta (por exemplo, matrícula do funcionário) e senha que pode ser usado "
+"nas rotas de saída."

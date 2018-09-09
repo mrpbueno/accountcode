@@ -160,3 +160,7 @@ msgstr ""
 #: functions.inc.php:123
 msgid "Optional: Select a rule to use. If using this option, leave the Route Password field blank."
 msgstr ""
+
+#: module.xml:46
+msgid "Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes."
+msgstr ""
