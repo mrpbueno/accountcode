@@ -19,12 +19,12 @@ $row = $db->sql($sql, 'NUM');
 if (password_verify($pass, $row[0][0])) {
    $rules = explode(',',$row[0][1]);
    if (!in_array($rule, $rules)) {
-       $agi->exec('Playback',"not-auth-pstn");
+       $agi->exec('Playback',"access-denied");
        $agi->set_variable('HANGUPCAUSE','21');
        $agi->hangup();
    } else {
        $agi->exec('Playback', 'one-moment-please');
-       $agi->set_variable('CALLEE_ACCOUNCODE', $account);
+       $agi->set_variable('CHANNEL(accountcode)', $account);
    }
 } else {
     $agi->exec('Playback', 'vm-invalidpassword');
