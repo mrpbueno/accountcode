@@ -12,8 +12,8 @@ e realize a instalação conforme [documentação do FreePBX](https://wiki.freep
 3. Nas rotas de saída selecione a regra de acesso;  
 
 **Utilização**  
-O usuário cadastrado que recebeu o código de conta 12345 e senha padrão 4567 vai realizar chamadas externas digitando    
-o número externo e quando solicitado a senha vai digitar 12345*4567#  
+O usuário cadastrado que recebeu o código de conta 12345 e senha padrão 4567 vai realizar chamadas externas    
+e quando solicitado a senha vai digitar 12345*4567#  
 A chamada será completada se:  
 - o código de conta estiver ativo;  
 - a senha corresponde ao código de conta;  
