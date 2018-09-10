@@ -164,3 +164,7 @@ msgstr ""
 #: module.xml:46
 msgid "Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes."
 msgstr ""
+
+#: Accountcode.class.php:444
+msgid "Update Account Code password"
+msgstr ""
