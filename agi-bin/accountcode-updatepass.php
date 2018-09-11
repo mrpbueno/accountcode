@@ -24,7 +24,7 @@ if (password_verify($pass, $row[0][0])) {
     $passwd2 = $passwd2['data'];
     // password match
     if ($passwd1 == $passwd2) {
-        $pass = password_hash($value,PASSWORD_DEFAULT);
+        $pass = password_hash($passwd1,PASSWORD_DEFAULT);
         $sql = "UPDATE `accountcode` SET `pass` = '$pass' WHERE `account` = '$account'";
         $db->sql($sql, 'NUM');
         $agi->exec('Playback', 'vm-passchanged');
