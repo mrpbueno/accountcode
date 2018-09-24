@@ -2,7 +2,7 @@
     <rawname>accountcode</rawname>
     <repo>unsupported</repo>
     <name>Account Code</name>
-    <version>14.0.2</version>
+    <version>14.0.3</version>
     <category>Applications</category>
     <Publisher>mrpbueno</Publisher>
     <info>https://github.com/mrpbueno/accountcode</info>
@@ -13,7 +13,7 @@
         <accountcode_rules hidden="true">Account Code Rules</accountcode_rules>
     </menuitems>
     <depends>
-        <version>14.0.1</version>
+        <version>14.0.2</version>
     </depends>
     <supported>14.0.0</supported>
     <database>
@@ -45,6 +45,7 @@
     <updateurl>https://raw.githubusercontent.com/mrpbueno/accountcode/master/accountcode.json</updateurl>
     <description>Allow creation of account code (eg, employee id) and password that can be used in Outbound Routes.</description>
     <changelog>
+        *14.0.3* Update Account error
         *14.0.2* Refactoring
         *14.0.1* Initial Dev Release
     </changelog>
