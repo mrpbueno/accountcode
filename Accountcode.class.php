@@ -156,7 +156,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
     public function updateAccount($post)
     {
         $rule = isset($post['rules']) ? $post['rules'] : $rule = array();
-        $rules = implode(',', $post['rules']);
+        $rules = implode(',', $rule);
         if (isset($post['reset'])) {
             $pass = password_hash('4567',PASSWORD_DEFAULT);
             $sql = 'UPDATE accountcode SET name = :name, email = :email, account = :account, pass = :pass, rules = :rules, active = :active WHERE id = :id';
