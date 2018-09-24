@@ -21,13 +21,16 @@ if (password_verify($pass, $row[0][0])) {
    if (!in_array($rule, $rules)) {
        $agi->exec('Playback',"access-denied");
        $agi->set_variable('HANGUPCAUSE','21');
+       $agi->exec('ResetCDR', 'v');
        $agi->hangup();
    } else {
        $agi->exec('Playback', 'one-moment-please');
        $agi->set_variable('CHANNEL(accountcode)', $account);
+       $agi->exec('ResetCDR', 'v');
    }
 } else {
     $agi->exec('Playback', 'vm-invalidpassword');
     $agi->set_variable('HANGUPCAUSE','21');
+    $agi->exec('ResetCDR', 'v');
     $agi->hangup();
 }
