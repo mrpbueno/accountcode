@@ -35,15 +35,7 @@ class Accountcode extends FreePBX_Helpers implements BMO
      */
     public function uninstall()
     {
-        echo "dropping table accountcode..";
-        sql('DROP TABLE IF EXISTS `accountcode`');
-        echo "done<br>\n";
-        echo "dropping table accountcode_rules_usage..";
-        sql('DROP TABLE IF EXISTS `accountcode_rules_usage`');
-        echo "done<br>\n";
-        echo "dropping table accountcode_rules..";
-        sql('DROP TABLE IF EXISTS `accountcode_rules`');
-        echo "done<br>\n";
+        // TODO: Implement uninstall() method.
     }
 
     public function backup()
